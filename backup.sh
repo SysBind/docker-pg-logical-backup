@@ -8,8 +8,12 @@ set -o pipefail
 PG_BIN=$PG_DIR/$PG_VERSION/bin
 ERRORCOUNT=0
 
-function filter {
+function filter_dbs {
     grep -v -w postgres | grep -v -w template0 | grep -v -w template1
+}
+
+function list_dbs {
+    psql --tuples-only -c "\l" | cut -f1 -d"|" | filter_dbs
 }
 
 function dump {
@@ -25,11 +29,11 @@ function gcs_upload {
     gsutil cp - $GCS_BUCKET/$1
 }
 
-gcloud auth gcloud auth activate-service-account --key-file $GCS_KEYFILE
+gcloud auth activate-service-account --key-file $GCS_KEYFILE
 
-for db in `psql --tuples-only -c "\l" | cut -f1 -d"|" | filter`; do
-    set -x    
-    dump $db | compress | gcs_upload $db
+for db in `list_dbs`; do
+    set -x
+    dump $db
     [[ ${PIPESTATUS[0]} != 0 || ${PIPESTATUS[1]} != 0 || ${PIPESTATUS[2]} != 0 ]] && (( ERRORCOUNT += 1 ))
     set +x
 done

@@ -8,5 +8,5 @@ PG_HOST, PG_USER, etc, See: https://www.postgresql.org/docs/12/libpq-envars.html
 
 
 ### Google Cloud
-GCS_BUCKET - gs://BUCKET_NAME/OBJECT_NAME
+GCS_BUCKET - gs://BUCKET_NAME
 GCS_KEYFILE - Path to Google Service Account Credentials, Should be injected into the container as a volume.
