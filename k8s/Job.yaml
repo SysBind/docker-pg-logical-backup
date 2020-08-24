@@ -1,0 +1,37 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: pg-logical-backup
+spec:
+  template:
+    spec:
+      containers:
+      - name: backup
+        image: sysbind/pg-logical-backup
+        command: ["sleep"]
+        args: ["2h"]
+        env:
+          - name: PG_VERSION
+            value: "12"
+          - name: PGUSER
+            value: "postgres"
+          - name: PGPASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: SECRET_WITH_POSTGRES_PASSWORD
+                key: password
+          - name: PGHOST
+            value: "PG_SERVICE"
+          - name: GCS_BUCKET
+            value: "gs://BUCKET"
+          - name: GCS_KEYFILE
+            value: "/var/run/secrets/gcs/gcskey.json"
+        volumeMounts:
+        - name: gcskey
+          mountPath: "/var/run/secrets/gcs"
+      volumes:
+        - name: gcskey
+          secret:
+            secretName: SECRET_WITH_SVC_ACC_KEY
+      restartPolicy: Never
+
