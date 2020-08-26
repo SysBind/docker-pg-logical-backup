@@ -29,11 +29,19 @@ function gcs_upload {
     gsutil cp - $GCS_BUCKET/$1
 }
 
+function backup_number {
+    local number=0
+    for line in `gsutil ls gs://maas-pg-backup | grep "/$" | grep pg-logical-`; do
+	echo "prev backup folder: $line" >&2
+    done
+    echo -n $number
+}
+
 gcloud auth activate-service-account --key-file $GCS_KEYFILE
 
 for db in `list_dbs`; do
     set -x
-    dump $db
+    dump $db | compress | gcp_upload `backup_number`/$db
     [[ ${PIPESTATUS[0]} != 0 || ${PIPESTATUS[1]} != 0 || ${PIPESTATUS[2]} != 0 ]] && (( ERRORCOUNT += 1 ))
     set +x
 done
