@@ -15,6 +15,8 @@ RUN apt-get update \
 	&& curl --silent https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - \
 	&& echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] http://packages.cloud.google.com/apt cloud-sdk main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list \
 	&& curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key --keyring /usr/share/keyrings/cloud.google.gpg add - \
+	&& curl -sL https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor | tee /etc/apt/trusted.gpg.d/microsoft.gpg > /dev/null \
+	&& echo "deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ `lsb_release -cs` main" | tee /etc/apt/sources.list.d/azure-cli.list \
     && apt-get update \
     && apt-get install --no-install-recommends -y  \
         postgresql-client-12  \
@@ -23,6 +25,7 @@ RUN apt-get update \
         postgresql-client-9.6 \
 	postgresql-client-9.5 \
 	google-cloud-sdk \
+	azure-cli \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
