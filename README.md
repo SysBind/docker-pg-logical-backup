@@ -10,3 +10,10 @@ PGHOST, PGUSER, etc, See: https://www.postgresql.org/docs/12/libpq-envars.html
 ### Google Cloud
 GCS_BUCKET - gs://BUCKET_NAME
 GCS_KEYFILE - Path to Google Service Account Credentials, Should be injected into the container as a volume.
+
+
+
+### Azure
+AZURE_STORAGE_ACCOUNT
+AZURE_STORAGE_KEY
+AZURE_CONTAINER_NAME
