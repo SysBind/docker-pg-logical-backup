@@ -21,7 +21,7 @@ function filter_dbs {
 }
 
 function list_dbs {
-    psql --tuples-only -c "\l" | cut -f1 -d"|" | filter_dbs
+    "$PG_BIN"/psql --tuples-only -c "\l" | cut -f1 -d"|" | filter_dbs
 }
 
 function dump {
@@ -33,16 +33,12 @@ function compress {
     pigz
 }
 
-function gcs_upload {
-    gsutil cp - $GCS_BUCKET/$1
-}
-
 authenticate
 BACKUPNUMBER=`backup_number`
 
 for db in `list_dbs`; do
     set -x
-    dump $db | compress | upload  pg-logical-$BACKUPNUMBER/$db
+    dump $db | compress | upload  pg-logical-$BACKUPNUMBER/$db.sql.xz
     [[ ${PIPESTATUS[0]} != 0 || ${PIPESTATUS[1]} != 0 || ${PIPESTATUS[2]} != 0 ]] && (( ERRORCOUNT += 1 ))
     set +x
 done

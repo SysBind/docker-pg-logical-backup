@@ -10,6 +10,7 @@ RUN apt-get update \
         pigz \
         curl \
 	gnupg  \
+	npm \
     && echo "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list \
     && cat /etc/apt/sources.list.d/pgdg.list \
 	&& curl --silent https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - \
@@ -27,6 +28,7 @@ RUN apt-get update \
 	google-cloud-sdk \
 	azure-cli \
     && apt-get clean \
+    && npm install --global azbak \
     && rm -rf /var/lib/apt/lists/*
 
 COPY *.sh ./

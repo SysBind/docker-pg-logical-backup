@@ -5,7 +5,8 @@ function authenticate {
 }
 
 function upload {
-    gsutil cp - $GCS_BUCKET/$1.sql.gz
+    echo "uploading $GCS_BUCKET/$1 " >&2
+    gsutil cp - $GCS_BUCKET/$1
 }
 
 function backup_number {
