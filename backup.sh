@@ -1,5 +1,13 @@
 #! /usr/bin/env bash
 
+# source the appropriate cloud interface
+# (defines: authenticate(), upload(), backup_number() )
+if [[ ! -z "${GCS_BUCKET}" ]]; then
+  source gcp.sh
+else
+  source azure.sh
+fi
+
 # enable unofficial bash strict mode
 set -o errexit
 set -o nounset
@@ -29,20 +37,12 @@ function gcs_upload {
     gsutil cp - $GCS_BUCKET/$1
 }
 
-function backup_number {
-    local number=0
-    for line in `gsutil ls gs://$GCS_BUCKET | grep "/$" | grep pg-logical-`; do
-	echo "prev backup folder: $line" >&2
-    done
-    echo -n $number
-}
-
-gcloud auth activate-service-account --key-file $GCS_KEYFILE
+authenticate
 BACKUPNUMBER=`backup_number`
 
 for db in `list_dbs`; do
     set -x
-    dump $db | compress | gcs_upload  pg-logical-$BACKUPNUMBER/$db
+    dump $db | compress | upload  pg-logical-$BACKUPNUMBER/$db
     [[ ${PIPESTATUS[0]} != 0 || ${PIPESTATUS[1]} != 0 || ${PIPESTATUS[2]} != 0 ]] && (( ERRORCOUNT += 1 ))
     set +x
 done
