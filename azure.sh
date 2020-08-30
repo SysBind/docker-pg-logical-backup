@@ -1,6 +1,6 @@
 
 # for azbak
-AZURE_STORAGE_ACCESS_KEY=$AZURE_ACCESS_KEY
+export AZURE_STORAGE_ACCESS_KEY=$AZURE_STORAGE_KEY
 
 function authenticate {
     echo "azure - authenticate: STUB" >&2
@@ -9,7 +9,7 @@ function authenticate {
 
 function upload {
     echo "uploading $AZURE_CONTAINER_NAME/$1 " >&2
-    azbak - $AZURE_CONTAINER_NAME/$1
+    azbak - /$AZURE_CONTAINER_NAME/$1
 }
 
 function backup_number {

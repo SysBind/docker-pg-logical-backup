@@ -38,7 +38,7 @@ BACKUPNUMBER=`backup_number`
 
 for db in `list_dbs`; do
     set -x
-    dump $db | compress | upload  pg-logical-$BACKUPNUMBER/$db.sql.xz
+    dump $db | compress | upload  pg-logical-$BACKUPNUMBER/$db.sql.gz
     [[ ${PIPESTATUS[0]} != 0 || ${PIPESTATUS[1]} != 0 || ${PIPESTATUS[2]} != 0 ]] && (( ERRORCOUNT += 1 ))
     set +x
 done
