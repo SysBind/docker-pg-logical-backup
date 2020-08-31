@@ -33,6 +33,10 @@ function compress {
     pigz
 }
 
+echo "Sleeping for 30 seconds..." >&2
+sleep 30s
+echo "Calling authenticate" >&2
+
 authenticate
 BACKUPNUMBER=`backup_number`
 
