@@ -17,3 +17,7 @@ GCS_KEYFILE - Path to Google Service Account Credentials, Should be injected int
 AZURE_STORAGE_ACCOUNT
 AZURE_STORAGE_KEY
 AZURE_CONTAINER_NAME
+
+
+# Istio
+ENVOY_SIGNAL_SHUTDOWN

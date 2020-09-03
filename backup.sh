@@ -47,4 +47,12 @@ for db in `list_dbs`; do
     set +x
 done
 
+set +o nounset
+if [[ ! -z "${ENVOY_SIGNAL_SHUTDOWN}" ]]; then
+    echo "Telling envoy to exit gracefully.."
+    curl -X POST http://127.0.0.1:15000/drain_listeners?graceful
+    curl -X POST http://127.0.0.1:15000/healthcheck/fail
+    curl -X POST http://127.0.0.1:15000/quitquitquit
+fi
+
 exit $ERRORCOUNT
