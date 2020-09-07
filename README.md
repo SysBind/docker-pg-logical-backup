@@ -1,4 +1,6 @@
-# Image to execute logical backup per postgresql database and upload to buckets (or save to volume)
+# Generic PostgreSQL Backup/Restore Docker image
+Image to execute logical backup per postgresql database and upload to buckets (or save to volume),
+And also to execute restore job to other target on-demand
 
 ## Env Vars
 
