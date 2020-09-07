@@ -16,21 +16,8 @@ set -o pipefail
 PG_BIN=$PG_DIR/$PG_VERSION/bin
 ERRORCOUNT=0
 
-function filter_dbs {
-    grep -v -w postgres | grep -v -w template0 | grep -v -w template1
-}
-
-function list_dbs {
-    "$PG_BIN"/psql --tuples-only -c "\l" | cut -f1 -d"|" | filter_dbs
-}
-
-function dump {
-    # settings are taken from the environment
-    "$PG_BIN"/pg_dump $db
-}
-
-function compress {
-    pigz
+function decompress {
+    pigz -dc
 }
 
 echo "$0: Sleeping for 30 seconds..." >&2
@@ -38,14 +25,9 @@ sleep 30s
 echo "$0: Calling authenticate" >&2
 
 authenticate
-BACKUPNUMBER=`backup_number`
 
-for db in `list_dbs`; do
-    set -x
-    dump $db | compress | upload  pg-logical-$BACKUPNUMBER/$db.sql.gz
-    [[ ${PIPESTATUS[0]} != 0 || ${PIPESTATUS[1]} != 0 || ${PIPESTATUS[2]} != 0 ]] && (( ERRORCOUNT += 1 ))
-    set +x
-done
+echo "fetching last backup"
+BACKUPNUMBER=`backup_number`
 
 set +o nounset
 if [[ ! -z "${ENVOY_SIGNAL_SHUTDOWN}" ]]; then
