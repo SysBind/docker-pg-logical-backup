@@ -29,11 +29,20 @@ authenticate
 echo "fetching last backup"
 BACKUPNUMBER=`backup_number`
 
+for dump in `list_dumps $backup_number`; do
+    set -x
+    get_dump $dump | decompress | psql
+    [[ ${PIPESTATUS[0]} != 0 || ${PIPESTATUS[1]} != 0 || ${PIPESTATUS[2]} != 0 ]] && (( ERRORCOUNT += 1 ))
+    set +x
+done
+
 set +o nounset
 if [[ ! -z "${ENVOY_SIGNAL_SHUTDOWN}" ]]; then
     echo "Telling envoy to exit gracefully.."
     curl -X POST http://127.0.0.1:15000/drain_listeners?graceful
+    sleep 1s; echo -n ".."
     curl -X POST http://127.0.0.1:15000/healthcheck/fail
+    sleep 1s; echo -n ".."
     curl -X POST http://127.0.0.1:15000/quitquitquit
 fi
 

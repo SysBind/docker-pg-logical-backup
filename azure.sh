@@ -20,3 +20,18 @@ function backup_number {
     done
     echo -n $number
 }
+
+
+# For restoration functionality
+
+# list_dumps backup_number
+function list_dumps {
+    az storage blob list --container-name=$AZURE_CONTAINER_NAME | grep pg-logical-$1 | cut -f4 -d'"'
+}
+
+# get_dump backup_number dump_name
+function get_dump {
+    az storage blob download --container $AZURE_CONTAINER_NAME --name pg-logical-$1/$2 -f dumpfile > /dev/null
+    cat dumpfile # still no luck piping..
+    rm x
+}

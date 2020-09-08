@@ -25,8 +25,8 @@ function list_dbs {
 }
 
 function dump {
-    # settings are taken from the environment
-    "$PG_BIN"/pg_dump $db
+    # settings are taken from the environment (user, password,..)
+    "$PG_BIN"/pg_dump --no-owner --create $db
 }
 
 function compress {
@@ -51,7 +51,9 @@ set +o nounset
 if [[ ! -z "${ENVOY_SIGNAL_SHUTDOWN}" ]]; then
     echo "Telling envoy to exit gracefully.."
     curl -X POST http://127.0.0.1:15000/drain_listeners?graceful
+    sleep 1s; echo -n ".."
     curl -X POST http://127.0.0.1:15000/healthcheck/fail
+    sleep 1s; echo -n ".."
     curl -X POST http://127.0.0.1:15000/quitquitquit
 fi
 
