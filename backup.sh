@@ -26,7 +26,7 @@ function list_dbs {
 
 function dump {
     # settings are taken from the environment (user, password,..)
-    "$PG_BIN"/pg_dump --no-owner --create $db
+    "$PG_BIN"/pg_dump --create $db
 }
 
 function compress {
