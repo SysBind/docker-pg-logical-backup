@@ -29,7 +29,7 @@ authenticate
 echo "fetching last backup"
 BACKUPNUMBER=`backup_number`
 
-for dump in `list_dumps $backup_number`; do
+for dump in `list_dumps $BACKUPNUMBER`; do
     set -x
     get_dump $dump | decompress | psql
     [[ ${PIPESTATUS[0]} != 0 || ${PIPESTATUS[1]} != 0 || ${PIPESTATUS[2]} != 0 ]] && (( ERRORCOUNT += 1 ))
