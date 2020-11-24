@@ -15,8 +15,7 @@ function upload {
 function backup_number {
     local number=0
     for line in `az storage blob list --container-name=$AZURE_CONTAINER_NAME | grep pg-logical- | cut -f4 -d'"' | cut -f1 -d"/" | uniq`; do
-	echo -n "prev backup folder: $line..." >&2
-	number=$((number+1))
+	    number=$((number+1))
     done
     echo -n $number
 }
@@ -31,7 +30,6 @@ function list_dumps {
 
 # get_dump backup_number dump_name
 function get_dump {
-    az storage blob download --container $AZURE_CONTAINER_NAME --name pg-logical-$1/$2 -f dumpfile > /dev/null
+    az storage blob download --container $AZURE_CONTAINER_NAME --name $1 -f dumpfile > /dev/null
     cat dumpfile # still no luck piping..
-    rm x
 }

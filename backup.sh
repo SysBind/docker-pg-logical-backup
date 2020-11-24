@@ -1,7 +1,7 @@
 #! /usr/bin/env bash
 
 # source the appropriate cloud interface
-# (defines: authenticate(), upload(), backup_number() )
+# (defines: authenticate(), upload(), backup_number(), get_dump() )
 if [[ ! -z "${GCS_BUCKET}" ]]; then
   source gcp.sh
 else

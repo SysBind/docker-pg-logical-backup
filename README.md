@@ -24,6 +24,12 @@ AZURE_STORAGE_KEY
 
 AZURE_CONTAINER_NAME
 
+### Restoring Backup
 
-# Istio
+RESTORE_DB - Database name to restore 
+              (Which is also the filename of the dump)
+
+### Istio
 ENVOY_SIGNAL_SHUTDOWN
+
+
