@@ -1,12 +1,11 @@
 # Generic PostgreSQL Backup/Restore Docker image
-Image to execute logical backup per postgresql database and upload to buckets (or save to volume),
-And also to execute restore job to other target on-demand
+Image to execute logical backup per postgresql database and upload to buckets (S3, GCS or Azure Blobs)
 
 ## Env Vars
 DAYS_KEEP - Default to 7, delete backups older than this value in days.
 
 ### PostgreSQL
-PG_VERSION - 9.5, 9.6, 10, 11 or 12
+PG_VERSION - 9.5, 9.6, 10, 11, 12 or 13
 
 PGHOST, PGUSER, etc, See: https://www.postgresql.org/docs/12/libpq-envars.html
 
