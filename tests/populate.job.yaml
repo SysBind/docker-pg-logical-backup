@@ -1,0 +1,25 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: populate-database
+spec:
+  template:
+    spec:
+      containers:
+      - name: backup
+        image: sysbind/pg-logical-backup
+        env:
+          - name: PG_VERSION
+            value: "13"
+          - name: PGUSER
+            value: "postgres"
+          - name: PGPASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: postgres.maas-main.credentials.postgresql.acid.zalan.do
+                key: password
+          - name: PGHOST
+            value: "maas-main-repl"
+
+
+          
