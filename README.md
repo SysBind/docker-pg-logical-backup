@@ -44,9 +44,9 @@ ENVOY_SIGNAL_SHUTDOWN
 - [Tilt](https://tilt.dev)
 
 ```kind create cluster```
-```tilt up``` or ```make up```
+```tilt up```
 
 Cleanup (do this if things stops working):
-```make clean```
+```tilt down```
 ```kind destroy cluster```
 

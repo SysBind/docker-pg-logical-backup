@@ -17,12 +17,6 @@ spec:
           - name: PGUSER
             value: "postgres"
           - name: PGPASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: postgresql
-                key: postgresql-postgres-password
+            value: "q1w2e3r4"
           - name: PGHOST
             value: "postgresql"
-
-
-          
