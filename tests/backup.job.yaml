@@ -22,14 +22,8 @@ spec:
           - name: PGHOST
             value: "postgresql"
           - name: S3_ACCESS_KEY
-            valueFrom:
-              secretKeyRef:
-                name: minio
-                key: accesskey       
+            value: "AKIAIOSFODNN7EXAMPLE"
           - name: S3_SECRET_KEY
-            valueFrom:
-              secretKeyRef:
-                name: minio
-                key: secretkey
+            value: "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"
           - name: S3_BUCKET
             value: "pgbackup"
