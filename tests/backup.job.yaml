@@ -1,0 +1,35 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: backup
+spec:
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: backup
+        image: sysbind/pg-logical-backup
+        #command: ["/backup.sh"]
+        command: ["sleep"]
+        args: ["2h"]
+        env:
+          - name: PG_VERSION
+            value: "13"
+          - name: PGUSER
+            value: "postgres"
+          - name: PGPASSWORD
+            value: "q1w2e3r4"
+          - name: PGHOST
+            value: "postgresql"
+          - name: S3_ACCESS_KEY
+            valueFrom:
+              secretKeyRef:
+                name: minio
+                key: accesskey       
+          - name: S3_SECRET_KEY
+            valueFrom:
+              secretKeyRef:
+                name: minio
+                key: secretkey
+          - name: S3_BUCKET
+            value: "pgbackup"

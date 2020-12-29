@@ -7,3 +7,4 @@ k8s_yaml(helm('tests/charts/postgresql', name="postgresql",
 docker_build('sysbind/pg-logical-backup', '.')
 
 k8s_yaml('tests/populate.job.yaml')
+k8s_yaml('tests/backup.job.yaml')

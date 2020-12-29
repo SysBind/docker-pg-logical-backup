@@ -9,8 +9,7 @@ spec:
       containers:
       - name: backup
         image: sysbind/pg-logical-backup
-        command: ["sleep"]
-        args: ["2h"]
+        command: ["/populate.sh"]
         env:
           - name: PG_VERSION
             value: "13"
