@@ -5,9 +5,12 @@ metadata:
 spec:
   template:
     spec:
+      restartPolicy: Never
       containers:
       - name: backup
         image: sysbind/pg-logical-backup
+        command: ["sleep"]
+        args: ["2h"]
         env:
           - name: PG_VERSION
             value: "13"
@@ -16,10 +19,10 @@ spec:
           - name: PGPASSWORD
             valueFrom:
               secretKeyRef:
-                name: postgres.maas-main.credentials.postgresql.acid.zalan.do
-                key: password
+                name: postgresql
+                key: postgresql-postgres-password
           - name: PGHOST
-            value: "maas-main-repl"
+            value: "postgresql"
 
 
           

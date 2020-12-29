@@ -2,6 +2,10 @@
 
 load('ext://helm_remote', 'helm_remote')
 
-helm_remote('minio', repo_url='https://helm.min.io/')
-helm_remote('postgresql', 'https://charts.bitnami.com/bitnami',
-            set=['image.tag=13'])
+
+helm('minio')
+helm('postgresql', set=['image.tag=13'])
+
+docker_build('sysbind/pg-logical-backup', '.')
+
+k8s_yaml('tests/populate.job.yaml')

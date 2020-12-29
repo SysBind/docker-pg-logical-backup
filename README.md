@@ -36,3 +36,17 @@ RESTORE_DB - Database name to restore
 ENVOY_SIGNAL_SHUTDOWN
 
 
+
+
+## Development
+
+- [Kind](https://kind.sigs.k8s.io) or other local kubernetes.
+- [Tilt](https://tilt.dev)
+
+```kind create cluster```
+```tilt up``` or ```make up```
+
+Cleanup (do this if things stops working):
+```make clean```
+```kind destroy cluster```
+
