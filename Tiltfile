@@ -1,8 +1,5 @@
 # Tiltfile for docker-pg-logical-backup
 
-load('ext://helm_remote', 'helm_remote')
-
-
 k8s_yaml(helm('tests/charts/minio', name="minio"))
 k8s_yaml(helm('tests/charts/postgresql', name="postgresql",              
               set=['postgresqlPassword=q1w2e3r4', 'image.tag=13']))
