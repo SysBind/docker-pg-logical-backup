@@ -3,8 +3,8 @@
 load('ext://helm_remote', 'helm_remote')
 
 
-helm('minio')
-helm('postgresql', set=['image.tag=13'])
+k8s_yaml(helm('tests/charts/minio'))
+k8s_yaml(helm('tests/charts/postgresql', set=['image.tag=13']))
 
 docker_build('sysbind/pg-logical-backup', '.')
 
