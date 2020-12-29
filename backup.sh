@@ -37,8 +37,6 @@ function compress {
     pigz
 }
 
-echo "$0: Sleeping for 30 seconds..." >&2
-sleep 30s
 echo "$0: Calling authenticate" >&2
 
 authenticate
