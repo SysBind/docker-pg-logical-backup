@@ -22,7 +22,9 @@ wait_for_proxy()
 
 terminate_proxy()
 {
+   echo "signalling istio-proxy to terminate.."
    curl -X POST http://127.0.0.1:15000/drain_listeners?graceful
    curl -X POST http://127.0.0.1:15000/healthcheck/fail
    curl -X POST http://127.0.0.1:15000/quitquitquit
+   echo "signaled istio-proxy to terminate.."
 }

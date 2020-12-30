@@ -7,11 +7,10 @@ function upload {
     gsutil cp - $GCS_BUCKET/$1
 }
 
-function backup_number {
-    local number=0
-    for line in `gsutil ls $GCS_BUCKET | grep "/$" | grep pg-logical-`; do
-	echo -n "prev backup folder: $line..." >&2
-	number=$((number+1))
-    done
-    echo -n $number
+function list_backups {
+    gsutil ls $GCS_BUCKET | grep "/$" | grep pg-logical- | cut -d'/' -f4
+}
+
+function delete_backup {
+    gsutil rm -r $GCS_BUCKET/pg-logical-$1
 }

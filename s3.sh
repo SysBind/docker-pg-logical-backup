@@ -30,6 +30,7 @@ function list_backups {
 
 function delete_backup {
     for dump in `s3cmd ls  s3://$S3_BUCKET/pg-logical-$1/ | cut -d'/' -f5`; do
+        echo "deleting old $S3_BUCKET/pg-logical-$1/$dump " >&2
         s3cmd del s3://$S3_BUCKET/pg-logical-$1/$dump;
     done
     s3cmd del s3://$S3_BUCKET/pg-logical-$1
