@@ -2,10 +2,9 @@
 # for azbak
 export AZURE_STORAGE_ACCESS_KEY=$AZURE_STORAGE_KEY
 
-function authenticate {
-    echo "azure - authenticate: STUB" >&2
+function initialize {
+    echo "Azure - init: STUB" >&2
 }
-
 
 function upload {
     echo "uploading $AZURE_CONTAINER_NAME/$1 " >&2

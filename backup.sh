@@ -1,9 +1,9 @@
 #! /usr/bin/env bash
 
-DAYS_KEEP=${DAYS_KEEP:-7}
+DAYS_KEEP=${DAYS_KEEP:-30}
 
 # source the appropriate cloud interface
-# (defines: authenticate(), upload(), get_dump(), delete_backup())
+# (defines: init(), upload(), get_dump(), delete_backup())
 if [[ ! -z "${S3_BUCKET}" ]]; then
   source s3.sh
 elif [[ ! -z "${GCS_BUCKET}" ]]; then
@@ -37,9 +37,9 @@ function compress {
     pigz
 }
 
-echo "$0: Calling authenticate" >&2
+echo "$0: Calling init" >&2
 
-authenticate
+initialize
 BACKUPNUMBER=`date +%Y%m%d%H%M`
 
 # Perform backup for each database

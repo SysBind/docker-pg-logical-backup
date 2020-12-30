@@ -2,7 +2,7 @@
 Image to execute logical backup per postgresql database and upload to buckets (S3, GCS or Azure Blobs)
 
 ## Env Vars
-DAYS_KEEP - Default to 7, delete backups older than this value in days.
+DAYS_KEEP - Default to 30, delete backups older than this value in days.
 
 ### PostgreSQL
 PG_VERSION - 9.5, 9.6, 10, 11, 12 or 13
@@ -23,9 +23,11 @@ AZURE_STORAGE_KEY
 
 
 ### S3
+S3_ENDPOINT
 S3_BUCKET
 S3_ACCESS_KEY
 S3_SECRET_KEY
+S3_USE_HTTPS
 
 ### Restoring Backup
 

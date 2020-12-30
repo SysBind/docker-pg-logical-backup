@@ -21,6 +21,10 @@ spec:
             value: "q1w2e3r4"
           - name: PGHOST
             value: "postgresql"
+          - name: S3_ENDPOINT
+            value: "minio:9000"
+          - name: S3_USE_HTTPS
+            value: "False"
           - name: S3_ACCESS_KEY
             value: "AKIAIOSFODNN7EXAMPLE"
           - name: S3_SECRET_KEY

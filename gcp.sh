@@ -1,6 +1,4 @@
-
-
-function authenticate {
+function initialize {
     gcloud auth activate-service-account --key-file $GCS_KEYFILE
 }
 
