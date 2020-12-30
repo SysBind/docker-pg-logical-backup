@@ -11,8 +11,6 @@ function upload {
     azbak - /$AZURE_CONTAINER_NAME/$1
 }
 
-# For restoration functionality
-
 # list_backups
 function list_backups {
     az storage blob list --container-name=$AZURE_CONTAINER_NAME | grep pg-logical- | cut -f4 -d'"' | cut -f1 -d"/" | uniq

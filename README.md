@@ -35,7 +35,8 @@ RESTORE_DB - Database name to restore
               (Which is also the filename of the dump)
 
 ### Istio
-ENVOY_SIGNAL_SHUTDOWN
+ENVOY_SUPPORT - Will wait for envoy to be ready on startup, 
+                And ask it to exit on finish (so that the Job is finished)
 
 
 

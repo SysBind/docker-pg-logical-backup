@@ -3,7 +3,7 @@
 DAYS_KEEP=${DAYS_KEEP:-30}
 
 # source the appropriate cloud interface
-# (defines: init(), upload(), get_dump(), delete_backup())
+# (defines: init(), upload(), list_backups(), [get_dump()], delete_backup())
 if [[ ! -z "${S3_BUCKET}" ]]; then
   source s3.sh
 elif [[ ! -z "${GCS_BUCKET}" ]]; then
@@ -11,6 +11,8 @@ elif [[ ! -z "${GCS_BUCKET}" ]]; then
 else
   source azure.sh
 fi
+
+source envoy.sh # istio support
 
 # enable unofficial bash strict mode
 set -o errexit
@@ -37,6 +39,12 @@ function compress {
     pigz
 }
 
+set +o nounset
+if [[ ! -z "${ENVOY_SUPPORT}" ]]; then
+    wait_for_proxy
+fi
+set -o nounset
+
 echo "$0: Calling init" >&2
 
 initialize
@@ -56,19 +64,15 @@ DELETE_BEFORE=`date +%Y%m%d%H%M -d "$DAYS_KEEP day ago"`
 for backup in `list_backups`; do
     backup_number=`echo $backup | cut -d'-' -f3`
     if [ $DELETE_BEFORE -gt $backup_number ]; then
+        echo "deleting $backup_number"
         delete_backup $backup_number
     fi
 done
 
 # Signal envoy to shutdown (if so configured).
 set +o nounset
-if [[ ! -z "${ENVOY_SIGNAL_SHUTDOWN}" ]]; then
-    echo "Telling envoy to exit gracefully.."
-    curl -X POST http://127.0.0.1:15000/drain_listeners?graceful
-    sleep 1s; echo -n ".."
-    curl -X POST http://127.0.0.1:15000/healthcheck/fail
-    sleep 1s; echo -n ".."
-    curl -X POST http://127.0.0.1:15000/quitquitquit
+if [[ ! -z "${ENVOY_SUPPORT}" ]]; then
+    terminate_proxy
 fi
 
 exit $ERRORCOUNT
