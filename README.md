@@ -1,5 +1,6 @@
-# Generic PostgreSQL Backup/Restore Docker image
+# PostgreSQL Logical Backup Docker Image
 Image to execute logical backup per postgresql database and upload to buckets (S3, GCS or Azure Blobs)
+Can be used as a K8s [Cron]Job to regullary backup PostgreSQL
 
 ## Env Vars
 DAYS_KEEP - Default to 30, delete backups older than this value in days.
