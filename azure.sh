@@ -24,7 +24,7 @@ function get_dump {
 
 # delete_backup backup_number
 function delete_backup {
-    for dump in  `az storage blob list --container-name=$AZURE_CONTAINER_NAME | grep pg-logical-$1 | cut -f4 -d'"' | cut -f1 -d"/"`; do
+    for dump in  `az storage blob list --container-name=$AZURE_CONTAINER_NAME | grep pg-logical-$1 | cut -f4 -d'"'`; do
         echo "deleting old dump $AZURE_CONTAINER_NAME/$dump " >&2
         az storage blob delete --container-name=$AZURE_CONTAINER_NAME -n $dump
     done
